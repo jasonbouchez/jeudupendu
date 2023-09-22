@@ -1,0 +1,87 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+
+body {
+    background-color:black;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     min-height: 90vh;
+     margin: 0;
+     font-family: Arial, sans-serif;
+ }
+
+
+ #page {
+     text-align: center;
+ }
+
+
+ h1 {
+     font-size: 40px;
+ }
+
+
+ #clavier {
+	 border-bottom-right-radius: 30%;
+     border: black 10px double;
+     border-color: blue;
+     background-clip: content-box;
+     margin-top: 10px;
+ }
+
+ #clavier td {
+     margin: 1px;
+     width: 30px;
+     height: 30px;
+     text-align: center;
+     border: 2px solid blue;
+	 color: white;
+     cursor: pointer;
+ }
+
+ #clavier td:hover {
+     background-color: blue;
+ }
+
+
+ #lettresIncorrectes {
+     box-shadow: 10px 5px 5px black;
+	 color: red;
+     margin-top: 30px;
+     font-weight: bold;
+ }
+
+ #lettresCorrectes {
+	color: green;
+	box-shadow: 10px 5px 5px black;
+	margin-top: 30px;
+	font-weight: bold;
+ }
+
+
+ #image_pendu {
+     display: block;
+     margin: 10px auto;
+     max-width: 200px;
+     max-height: 200px;
+ }
+
+ #motMasque {
+	background-color: green;
+     box-shadow: 10px 5px 5px black;
+ }
+
+ .tittle{
+	color: blue;
+	box-shadow: 10px 5px 5px blue;
+ }
+
+ .headd{
+	align-items: center;
+	height: 250px;
+ }
+

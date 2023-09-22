@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu du Pendu</title>
+    <link rel="stylesheet" href="style.css">
+    </header>
+
+<body class="body">
+
+    <header>
+        <img class="headd" src="image/homer.bar.gif" alt="">
+    </header>
+
+    <div id="page">
+
+        <!-- image homer
+        <section>
+            <img class="headd" src="image/homer.gif" alt="">
+        </section> -->
+
+        <!-- titre -->
+        <h1 class="tittle">snoop snoop</h1>
+
+        <!-- image du jeux -->
+        <img id="image_pendu" class="pendu" src="image/pendu_0.jpg">
+
+        <!-- mots masquee -->
+        <p id="motMasque"></p>
+
+        <!-- tables du clavier -->
+        <table id="clavier">
+            <tr>
+                <td onclick="choisirLettre(this);">A</td>
+                <td onclick="choisirLettre(this);">B</td>
+                <td onclick="choisirLettre(this);">C</td>
+                <td onclick="choisirLettre(this);">D</td>
+                <td onclick="choisirLettre(this);">E</td>
+                <td onclick="choisirLettre(this);">F</td>
+                <td onclick="choisirLettre(this);">G</td>
+                <td onclick="choisirLettre(this);">H</td>
+                <td onclick="choisirLettre(this);">I</td>
+                <td onclick="choisirLettre(this);">J</td>
+            </tr>
+            <tr>
+                <td onclick="choisirLettre(this);">K</td>
+                <td onclick="choisirLettre(this);">L</td>
+                <td onclick="choisirLettre(this);">M</td>
+                <td onclick="choisirLettre(this);">N</td>
+                <td onclick="choisirLettre(this);">O</td>
+                <td onclick="choisirLettre(this);">P</td>
+                <td onclick="choisirLettre(this);">Q</td>
+                <td onclick="choisirLettre(this);">R</td>
+                <td onclick="choisirLettre(this);">S</td>
+                <td onclick="choisirLettre(this);">T</td>
+            </tr>
+            <tr>
+                <td onclick="choisirLettre(this);">U</td>
+                <td onclick="choisirLettre(this);">V</td>
+                <td onclick="choisirLettre(this);">W</td>
+                <td onclick="choisirLettre(this);">X</td>
+                <td onclick="choisirLettre(this);">Y</td>
+                <td onclick="choisirLettre(this);">Z</td>
+            </tr>
+        </table>
+        <br>
+
+        <!-- div lettre correcte et incorecte -->
+        <div id="lettresIncorrectes"></div>
+        <div id="lettresCorrectes"></div>
+
+        <!-- debut js -->
+        <script>
+
+            // variables et mots cacheés 
+            var mots = ["jason", "nicky", "dylan", "nawell", "thomas", "amadou"];
+            var motADeviner;
+            var lettresCorrectes = [];
+            var lettresIncorrectes = [];
+            var essaisMax = 9;
+            var essais = 0;
+            var motMasque = "";
+            var fini = false;
+
+            // function choisir le mots
+            function choisirMot() {
+                return mots[Math.floor(Math.random() * mots.length)];
+            }
+
+            // initilier le jeux
+            function initialiserJeu() {
+                motADeviner = choisirMot();
+                lettresCorrectes = [];
+                lettresIncorrectes = [];
+                essais = 0;
+                motMasque = "";
+
+                for (var i = 0; i < motADeviner.length; i++) {
+                    motMasque += "_ ";
+                }
+
+                // mettre à jour le contenu affiché
+                document.getElementById("motMasque").textContent = "Mot à deviner : " + motMasque;
+                document.getElementById("lettresIncorrectes").textContent = "Lettres incorrectes : ";
+                document.getElementById("lettresCorrectes").textContent = "Lettres correctes : ";
+                document.getElementById("image_pendu").src = "image/pendu_0.jpg";
+                fini = false;
+            }
+
+            // choisir une lettres 
+            function choisirLettre(cell) {
+                if (essais < essaisMax && !fini) {
+                    var lettreChoisie = cell.textContent.toLowerCase();
+
+                    if (lettresCorrectes.includes(lettreChoisie) || lettresIncorrectes.includes(lettreChoisie)) {
+                        alert("Vous avez déjà choisi cette lettre.");
+                        return;
+                    }
+
+                    // lettres a inclure dans lettres choisie 
+                    if (motADeviner.includes(lettreChoisie)) {
+                        lettresCorrectes.push(lettreChoisie);
+
+                        for (var i = 0; i < motADeviner.length; i++) {
+                            if (motADeviner[i] === lettreChoisie) {
+                                motMasque = motMasque.substring(0, 2 * i) + lettreChoisie + motMasque.substring(2 * i + 1);
+                            }
+                        }
+
+                        document.getElementById("motMasque").textContent = "Mot à deviner : " + motMasque;
+                        document.getElementById("lettresCorrectes").textContent = "Lettres correctes : " + lettresCorrectes.join(", ");
+
+                        // mots trouvee
+                        if (motMasque.indexOf("_") === -1) {
+                            alert("Félicitations ! Vous avez deviné le mot : " + motADeviner);
+                            fini = true;
+                            location.reload();
+                        }
+                    } else {
+                        lettresIncorrectes.push(lettreChoisie);
+                        essais++;
+
+                        document.getElementById("lettresIncorrectes").textContent = "Lettres incorrectes : " + lettresIncorrectes.join(", ");
+                        document.getElementById("image_pendu").src = "image/pendu_" + essais + ".jpg";
+
+                        // mots non trouvee (essais max)
+                        if (essais === essaisMax) {
+                            alert("Désolé, vous avez perdu. Le mot à deviner était : " + motADeviner);
+                            fini = true;
+                            location.reload();
+                        }
+                    }
+                }
+            }
+            // initialiser le jeu 
+            initialiserJeu();
+        </script>
+    </div>
+</body>
+
+</html>
